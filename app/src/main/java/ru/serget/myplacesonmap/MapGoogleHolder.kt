@@ -19,6 +19,5 @@ class MapGoogleHolder: IMapGoogle {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setOnCircleClickListener()
     }
 }

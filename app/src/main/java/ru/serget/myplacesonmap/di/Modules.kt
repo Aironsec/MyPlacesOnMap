@@ -7,5 +7,5 @@ import ru.serget.myplacesonmap.view.screens.map.MapViewModel
 
 val screens = module {
     viewModel { MapViewModel() }
-    single { MapGoogleHolder() }
+//    single { MapGoogleHolder() }
 }

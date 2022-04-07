@@ -10,13 +10,15 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import org.koin.android.ext.android.inject
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import ru.serget.myplacesonmap.MapGoogleHolder
 import ru.serget.myplacesonmap.R
 import ru.serget.myplacesonmap.databinding.ActivityMapsBinding
 import ru.serget.myplacesonmap.model.data.AppState
@@ -24,12 +26,13 @@ import ru.serget.myplacesonmap.utils.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
 import ru.serget.myplacesonmap.view.BaseView
 import ru.serget.myplacesonmap.view.screens.myplace.MyPlacesActivity
 
-class MapsActivity : BaseView<AppState>() {
+class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
+    private lateinit var mMap: GoogleMap
+
     private var locationPermissionGranted: Boolean = false
-    private val mMap: MapGoogleHolder by inject()
 
     override val model: MapViewModel by viewModel()
 
@@ -54,7 +57,17 @@ class MapsActivity : BaseView<AppState>() {
     private fun initMapFragment() {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(mMap)
+        mapFragment.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.setOnMapClickListener(this)
+    }
+
+    override fun onMapClick(position: LatLng) {
+        mMap.clear()
+        mMap.addMarker(MarkerOptions().position(position))
     }
 
     @SuppressLint("MissingPermission")
@@ -124,7 +137,7 @@ class MapsActivity : BaseView<AppState>() {
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                mMap.moveCamera(LatLng(appState.data.latitude, appState.data.longitude))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(appState.data, 16f))
             }
 
             else -> {}
