@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MyPlacesOnMap</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps">Карта</string>
     <string name="menu_map_location">Текущая локация</string>
-    <string name="menu_map_myplaces">Мои места</string>
+    <string name="title_my_place">Мои места</string>
 </resources>

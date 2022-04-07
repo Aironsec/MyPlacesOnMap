@@ -27,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.screens.myplace.MyPlacesActivity"
+            android:label="@string/title_my_place"/>
     </application>
 
 </manifest>

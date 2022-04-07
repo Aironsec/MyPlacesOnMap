@@ -19,7 +19,7 @@ abstract class BaseViewModel<T:AppState>(
     )
     abstract fun handlerError(error: Throwable)
 
-    abstract fun getListLatLon(locate: LatLng)
+    abstract fun getLatLng(locate: LatLng)
 
     override fun onCleared() {
         super.onCleared()

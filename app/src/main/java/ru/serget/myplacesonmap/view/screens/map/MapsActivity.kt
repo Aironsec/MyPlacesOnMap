@@ -22,6 +22,7 @@ import ru.serget.myplacesonmap.databinding.ActivityMapsBinding
 import ru.serget.myplacesonmap.model.data.AppState
 import ru.serget.myplacesonmap.utils.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
 import ru.serget.myplacesonmap.view.BaseView
+import ru.serget.myplacesonmap.view.screens.myplace.MyPlacesActivity
 
 class MapsActivity : BaseView<AppState>() {
     private lateinit var binding: ActivityMapsBinding
@@ -34,9 +35,9 @@ class MapsActivity : BaseView<AppState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initViewModel()
         initMapFragment()
         getLocationPermission()
@@ -65,7 +66,7 @@ class MapsActivity : BaseView<AppState>() {
                     if (task.isSuccessful) {
                         val lastKnownLocation: Location? = task.result
                         lastKnownLocation?.let {
-                            model.getListLatLon(LatLng(lastKnownLocation.latitude,
+                            model.getLatLng(LatLng(lastKnownLocation.latitude,
                                 lastKnownLocation.longitude))
                         }
 
@@ -86,9 +87,7 @@ class MapsActivity : BaseView<AppState>() {
         when (item.itemId) {
             R.id.menu_map_location -> showCurrentLocation()
 
-            R.id.menu_map_myplaces -> {
-//                navigationTo(MyPlacesActivity::class.java)
-            }
+            R.id.menu_map_myplaces -> navigationTo(MyPlacesActivity::class.java)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -99,8 +98,7 @@ class MapsActivity : BaseView<AppState>() {
         ) {
             locationPermissionGranted = true
         } else {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION)
         }
     }
@@ -126,7 +124,7 @@ class MapsActivity : BaseView<AppState>() {
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                mMap.moveCamera(LatLng(appState.data!!.latitude, appState.data.longitude))
+                mMap.moveCamera(LatLng(appState.data.latitude, appState.data.longitude))
             }
 
             else -> {}

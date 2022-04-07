@@ -14,12 +14,8 @@ class MapViewModel: BaseViewModel<AppState>() {
     override fun handlerError(error: Throwable) =
         _mutableLiveData.postValue(AppState.Error(error))
 
-    override fun getListLatLon(locate: LatLng) {
+    override fun getLatLng(locate: LatLng) {
         _mutableLiveData.value = AppState.Success(locate)
     }
 
-    override fun onCleared() {
-//        _mutableLiveData.value = AppState.Success(null)
-        super.onCleared()
-    }
 }

@@ -10,6 +10,6 @@
     <item
         android:id="@+id/menu_map_myplaces"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="@string/menu_map_myplaces"
+        android:title="@string/title_my_place"
         app:showAsAction="always" />
 </menu>
