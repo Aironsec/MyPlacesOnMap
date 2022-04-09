@@ -2,11 +2,10 @@ package ru.serget.myplacesonmap.viewmodal
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.*
-import ru.serget.myplacesonmap.model.data.AppState
+import ru.serget.myplacesonmap.model.data.AppStateForMap
 
-abstract class BaseViewModel<T:AppState>(
+abstract class BaseViewModel<T>(
     protected open val _mutableLiveData: MutableLiveData<T> = MutableLiveData()
 ) : ViewModel(){
 
@@ -18,8 +17,6 @@ abstract class BaseViewModel<T:AppState>(
         }
     )
     abstract fun handlerError(error: Throwable)
-
-    abstract fun getLatLng(locate: LatLng)
 
     override fun onCleared() {
         super.onCleared()
