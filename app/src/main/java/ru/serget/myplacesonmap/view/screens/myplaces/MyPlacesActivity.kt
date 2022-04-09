@@ -1,4 +1,4 @@
-package ru.serget.myplacesonmap.view.screens.myplace
+package ru.serget.myplacesonmap.view.screens.myplaces
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

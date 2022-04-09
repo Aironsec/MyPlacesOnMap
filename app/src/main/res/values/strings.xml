@@ -3,4 +3,5 @@
     <string name="title_activity_maps">Карта</string>
     <string name="menu_map_location">Текущая локация</string>
     <string name="title_my_place">Мои места</string>
+    <string name="title_add_place">Добавить место</string>
 </resources>

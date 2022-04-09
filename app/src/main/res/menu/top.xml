@@ -8,6 +8,12 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/menu_map_add_place"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/title_add_place"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/menu_map_myplaces"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="@string/title_my_place"

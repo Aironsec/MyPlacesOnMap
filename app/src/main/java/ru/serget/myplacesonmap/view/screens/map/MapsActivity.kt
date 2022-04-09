@@ -24,13 +24,13 @@ import ru.serget.myplacesonmap.databinding.ActivityMapsBinding
 import ru.serget.myplacesonmap.model.data.AppState
 import ru.serget.myplacesonmap.utils.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
 import ru.serget.myplacesonmap.view.BaseView
-import ru.serget.myplacesonmap.view.screens.myplace.MyPlacesActivity
+import ru.serget.myplacesonmap.view.screens.myplaces.MyPlacesActivity
 
 class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapClickListener {
     private lateinit var binding: ActivityMapsBinding
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
-    private lateinit var mMap: GoogleMap
+    private var mMap: GoogleMap? = null
 
     private var locationPermissionGranted: Boolean = false
 
@@ -45,7 +45,6 @@ class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapCl
         initMapFragment()
         getLocationPermission()
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        showCurrentLocation()
     }
 
     private fun initViewModel() {
@@ -62,12 +61,12 @@ class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapCl
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setOnMapClickListener(this)
+        mMap?.setOnMapClickListener(this)
+//        showCurrentLocation()
     }
 
     override fun onMapClick(position: LatLng) {
-        mMap.clear()
-        mMap.addMarker(MarkerOptions().position(position))
+        model.getLatLng(position)
     }
 
     @SuppressLint("MissingPermission")
@@ -101,6 +100,8 @@ class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapCl
             R.id.menu_map_location -> showCurrentLocation()
 
             R.id.menu_map_myplaces -> navigationTo(MyPlacesActivity::class.java)
+
+            R.id.menu_map_add_place -> model.addPlace()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -137,7 +138,11 @@ class MapsActivity : BaseView<AppState>(), OnMapReadyCallback, GoogleMap.OnMapCl
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(appState.data, 16f))
+                mMap?.let {
+                    it.clear()
+                    it.moveCamera(CameraUpdateFactory.newLatLngZoom(appState.data, 16f))
+                    it.addMarker(MarkerOptions().position(appState.data)) }
+
             }
 
             else -> {}
