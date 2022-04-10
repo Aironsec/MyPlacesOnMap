@@ -15,5 +15,8 @@ class MyPlaceViewModel(private val repo: RepositoryImpl) : BaseViewModel<AppStat
     override fun handlerError(error: Throwable) =
         _mutableLiveData.postValue(AppStateForMyPlace.Error(error))
 
-    fun getListMyPlace(): List<ItemPlace> = repo.getListMyPlaces()
+    fun getListMyPlace() {
+        val myPlaces = repo.getListMyPlaces()
+        _mutableLiveData.value = AppStateForMyPlace.Success(myPlaces)
+    }
 }

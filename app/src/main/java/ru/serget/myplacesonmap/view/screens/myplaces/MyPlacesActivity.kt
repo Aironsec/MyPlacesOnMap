@@ -1,13 +1,36 @@
 package ru.serget.myplacesonmap.view.screens.myplaces
 
 import android.os.Bundle
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.serget.myplacesonmap.databinding.ActivityMyplecesBinding
 import ru.serget.myplacesonmap.model.data.AppStateForMyPlace
+import ru.serget.myplacesonmap.model.data.ItemPlace
 import ru.serget.myplacesonmap.view.BaseView
 
-class MyPlacesActivity:BaseView<AppStateForMyPlace>() {
+class MyPlacesActivity : BaseView<AppStateForMyPlace>() {
     private lateinit var binding: ActivityMyplecesBinding
+
+    private val adapter: MyPlaceAdapter by lazy { MyPlaceAdapter(itemClickListener) }
+    private var positionRecyclerView: Int? = null
+
+    private val itemClickListener: MyPlaceAdapter.ItemClickListener =
+        object : MyPlaceAdapter.ItemClickListener {
+            override fun clickItem(itemPlace: ItemPlace, position: Int) {
+                positionRecyclerView = position
+                val editPlaceDialogFragment = EditPlaceDialogFragment.newInstance(itemPlace)
+                editPlaceDialogFragment.setOnSaveClickListener(onSavePlaceListener)
+                editPlaceDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+            }
+        }
+
+    private val onSavePlaceListener : EditPlaceDialogFragment.OnSaveClickListener =
+        object : EditPlaceDialogFragment.OnSaveClickListener {
+            override fun onClick(titlePlace: String, descriptionPlace: String) {
+                //todo сохранить в модель
+            }
+
+        }
 
     override val model: MyPlaceViewModel by viewModel()
 
@@ -17,6 +40,13 @@ class MyPlacesActivity:BaseView<AppStateForMyPlace>() {
         setContentView(binding.root)
 
         initViewModel()
+        initView()
+    }
+
+    private fun initView() {
+        binding.rvMyPlace.layoutManager = LinearLayoutManager(applicationContext)
+        binding.rvMyPlace.adapter = adapter
+        model.getListMyPlace()
     }
 
     private fun initViewModel() {
@@ -24,11 +54,16 @@ class MyPlacesActivity:BaseView<AppStateForMyPlace>() {
     }
 
     override fun renderData(appState: AppStateForMyPlace) {
-        when(appState) {
+        when (appState) {
             is AppStateForMyPlace.Success -> {
-
+                adapter.setData(appState.data)
             }
             else -> {}
         }
+    }
+
+    companion object {
+        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
+            "1234567890987654321"
     }
 }
