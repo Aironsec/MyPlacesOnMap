@@ -2,7 +2,6 @@ package ru.serget.myplacesonmap.view.screens.myplaces
 
 import androidx.lifecycle.LiveData
 import ru.serget.myplacesonmap.model.data.AppStateForMyPlace
-import ru.serget.myplacesonmap.model.data.ItemPlace
 import ru.serget.myplacesonmap.model.repository.RepositoryImpl
 import ru.serget.myplacesonmap.viewmodal.BaseViewModel
 

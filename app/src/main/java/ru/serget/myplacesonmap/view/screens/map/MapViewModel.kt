@@ -14,8 +14,10 @@ class MapViewModel(private val repo: RepositoryImpl): BaseViewModel<AppStateForM
 
     fun subscribe(): LiveData<AppStateForMap> = liveDataForViewToObserve
 
-    override fun handlerError(error: Throwable) =
-        _mutableLiveData.postValue(AppStateForMap.Error(error))
+    override fun handlerError(error: Throwable) {
+        _mutableLiveData.value = AppStateForMap.Error(error)
+    }
+
 
     fun getPositionMap(position: LatLng) {
         lastKnownLatLng = position
