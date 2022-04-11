@@ -6,6 +6,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.serget.myplacesonmap.databinding.ActivityMyplecesBinding
 import ru.serget.myplacesonmap.model.data.AppStateForMyPlace
 import ru.serget.myplacesonmap.model.data.ItemPlace
+import ru.serget.myplacesonmap.utils.BOTTOM_SHEET_FRAGMENT_DIALOG_TAG
 import ru.serget.myplacesonmap.view.BaseView
 
 class MyPlacesActivity : BaseView<AppStateForMyPlace>() {
@@ -20,11 +21,12 @@ class MyPlacesActivity : BaseView<AppStateForMyPlace>() {
                 positionRecyclerView = position
                 val editPlaceDialogFragment = EditPlaceDialogFragment.newInstance(itemPlace)
                 editPlaceDialogFragment.setOnSaveClickListener(onSavePlaceListener)
-                editPlaceDialogFragment.show(supportFragmentManager, BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
+                editPlaceDialogFragment.show(supportFragmentManager,
+                    BOTTOM_SHEET_FRAGMENT_DIALOG_TAG)
             }
         }
 
-    private val onSavePlaceListener : EditPlaceDialogFragment.OnSaveClickListener =
+    private val onSavePlaceListener: EditPlaceDialogFragment.OnSaveClickListener =
         object : EditPlaceDialogFragment.OnSaveClickListener {
             override fun onClick(titlePlace: String, descriptionPlace: String) {
                 //todo сохранить в модель
@@ -60,10 +62,5 @@ class MyPlacesActivity : BaseView<AppStateForMyPlace>() {
             }
             else -> {}
         }
-    }
-
-    companion object {
-        private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG =
-            "1234567890987654321"
     }
 }

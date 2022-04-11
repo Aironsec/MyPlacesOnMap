@@ -1,3 +1,4 @@
 package ru.serget.myplacesonmap.utils
 
 const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12321
+const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "1234567890987654321"
